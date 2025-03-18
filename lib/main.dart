@@ -11,10 +11,11 @@ import 'package:my_finance/screens/home_screen.dart';
 import 'package:my_finance/services/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService().initNotifications();
   runApp(const MyApp());
 }
