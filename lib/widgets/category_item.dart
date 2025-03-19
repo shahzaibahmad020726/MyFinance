@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:my_finance/models/category_model.dart';
+import 'package:my_finance/providers/category_provider.dart';
+import 'package:provider/provider.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;
-  final VoidCallback onDelete;
 
   const CategoryItem({
     super.key,
     required this.category,
-    required this.onDelete,
   });
 
   @override
@@ -20,8 +20,13 @@ class CategoryItem extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         trailing: IconButton(
-          icon: Icon(Icons.delete, color: Colors.red),
-          onPressed: onDelete,
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: () {
+              Provider.of<CategoryProvider>(
+                context,
+                listen: false,
+              ).deleteCategory(category.id);
+            },
         ),
       ),
     );

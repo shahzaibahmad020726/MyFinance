@@ -22,9 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (email.isEmpty || password.isEmpty || password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Enter valid email and password (min 6 characters)."),
-        ),
+        SnackBar(content: Text("Enter valid email and password.")),
       );
       setState(() => _isLoading = false);
       return;
@@ -58,7 +56,11 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               Text(
                 _isLogin ? "Login" : "Register",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
               ),
               SizedBox(height: 20),
               TextField(
@@ -75,16 +77,45 @@ class _AuthScreenState extends State<AuthScreen> {
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                     onPressed: _submitAuthForm,
-                    child: Text(_isLogin ? "Login" : "Register"),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        Colors.greenAccent,
+                      ),
+                    ),
+                    child: Text(
+                      _isLogin ? "Login" : "Register",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-              TextButton(
-                onPressed: () => setState(() => _isLogin = !_isLogin),
-                child: Text(
-                  _isLogin
-                      ? "Create an account"
-                      : "Already have an account? Login",
-                ),
-              ),
+              SizedBox(height: 16),
+              _isLogin
+                  ? TextButton(
+                    onPressed: () => setState(() => _isLogin = !_isLogin),
+                    child: Text(
+                      "Create an account",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    ),
+                  )
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already have an account?",
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      TextButton(
+                        onPressed: () => setState(() => _isLogin = !_isLogin),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
             ],
           ),
         ),

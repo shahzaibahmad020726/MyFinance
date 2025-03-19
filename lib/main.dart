@@ -6,9 +6,7 @@ import 'package:my_finance/providers/transaction_provider.dart';
 import 'package:my_finance/screens/add_transaction_screen.dart';
 import 'package:my_finance/screens/auth_screen.dart';
 import 'package:my_finance/screens/category_screen.dart';
-import 'package:my_finance/screens/dashboard_screen.dart';
 import 'package:my_finance/screens/home_screen.dart';
-import 'package:my_finance/services/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -16,7 +14,6 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService().initNotifications();
   runApp(const MyApp());
 }
 
@@ -32,6 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: AppConstants.appName,
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         initialRoute: "/auth",
         routes: {
@@ -39,7 +37,6 @@ class MyApp extends StatelessWidget {
           "/home": (context) => HomeScreen(),
           "/add-transaction": (context) => AddTransactionScreen(),
           "/categories": (context) => CategoryScreen(),
-          "/dashboard": (context) => DashboardScreen(),
         },
       ),
     );

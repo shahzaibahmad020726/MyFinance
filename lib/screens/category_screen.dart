@@ -34,7 +34,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     final categories = Provider.of<CategoryProvider>(context).categories;
     return Scaffold(
-      appBar: AppBar(title: Text("Manage Categories")),
+      appBar: AppBar(
+        title: Text(
+          "Manage Categories",
+          style: TextStyle(color: Colors.black, fontSize: 18),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Padding(
@@ -44,14 +50,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
               decoration: InputDecoration(labelText: "New Category"),
             ),
           ),
-          ElevatedButton(onPressed: _addCategory, child: Text("Add Category")),
+          ElevatedButton(
+            onPressed: _addCategory,
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.greenAccent),
+            ),
+            child: Text("Add Category", style: TextStyle(color: Colors.black)),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: categories.length,
               itemBuilder:
                   (context, index) => CategoryItem(
                     category: categories[index],
-                    onDelete: () {},
                   ),
             ),
           ),
