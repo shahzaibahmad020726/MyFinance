@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_finance/core/constants.dart';
-import 'package:my_finance/core/theme.dart';
 import 'package:my_finance/providers/category_provider.dart';
 import 'package:my_finance/providers/transaction_provider.dart';
 import 'package:my_finance/screens/add_transaction_screen.dart';
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: AppConstants.appName,
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
         initialRoute: "/auth",
         routes: {
           "/auth": (context) => AuthScreen(),

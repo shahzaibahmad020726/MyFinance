@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_finance/core/theme.dart';
 import 'package:my_finance/services/auth_service.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -14,6 +15,16 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isLogin = true;
   bool _isLoading = false;
 
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: w16),
+        backgroundColor: errorClr,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   void _submitAuthForm() async {
     setState(() => _isLoading = true);
 
@@ -21,11 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty || password.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Enter valid email and password.")),
-      );
-      setState(() => _isLoading = false);
-      return;
+      _showErrorSnackBar("Authentication Failed");
     }
 
     final authService = AuthService();
@@ -37,9 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
     if (user != null) {
       Navigator.pushReplacementNamed(context, "/home");
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Authentication failed. Try again.")),
-      );
+      _showErrorSnackBar("Account does not exists.");
     }
 
     setState(() => _isLoading = false);
@@ -54,69 +59,106 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                _isLogin ? "Login" : "Register",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-              SizedBox(height: 20),
-              TextField(
+              Text(_isLogin ? "Login" : "Register", style: g18),
+              Txtfield(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: "Email"),
+                hinttext: "Email",
+                obscureText: false,
               ),
-              TextField(
+              Txtfield(
+                hinttext: "Password",
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: "Password"),
                 obscureText: true,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? CircularProgressIndicator(color: gClr)
                   : ElevatedButton(
                     onPressed: _submitAuthForm,
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                        Colors.greenAccent,
-                      ),
+                      backgroundColor: WidgetStateProperty.all(gClr),
                     ),
-                    child: Text(
-                      _isLogin ? "Login" : "Register",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: Text(_isLogin ? "Login" : "Register", style: w16),
                   ),
               SizedBox(height: 16),
               _isLogin
                   ? TextButton(
-                    onPressed: () => setState(() => _isLogin = !_isLogin),
-                    child: Text(
-                      "Create an account",
-                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                     ),
+                    onPressed: () {
+                      _emailController.clear();
+                      _passwordController.clear();
+                      setState(() => _isLogin = !_isLogin);
+                    },
+                    child: Text("Create an account", style: g16),
                   )
                   : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Already have an account?",
-                        style: TextStyle(fontSize: 14, color: Colors.black),
-                      ),
+                      Text("Already have an account?", style: g16),
                       TextButton(
-                        onPressed: () => setState(() => _isLogin = !_isLogin),
-                        child: Text(
-                          "Login",
-                          style: TextStyle(fontSize: 14, color: Colors.black),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            Colors.transparent,
+                          ),
                         ),
+                        onPressed: () {
+                          _emailController.clear();
+                          _passwordController.clear();
+                          setState(() => _isLogin = !_isLogin);
+                        },
+                        child: Text("Login", style: g16),
                       ),
                     ],
                   ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Txtfield extends StatelessWidget {
+  final String hinttext;
+  final TextEditingController controller;
+  final bool obscureText;
+
+  const Txtfield({
+    super.key,
+    required this.hinttext,
+    required this.controller,
+    required this.obscureText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        obscureText: obscureText,
+        controller: controller,
+        enableSuggestions: false,
+        autocorrect: false,
+        style: g16,
+        decoration: InputDecoration(
+          hintText: hinttext,
+          hintStyle: g16,
+          prefixIconColor: gClr,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: const BorderSide(color: gClr, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: const BorderSide(color: gClr, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: const BorderSide(color: gClr, width: 2),
           ),
         ),
       ),
