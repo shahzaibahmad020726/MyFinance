@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_finance/core/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_finance/models/transaction_model.dart';
@@ -5,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Add transaction to Firestore
   Future<void> addTransaction(TransactionModel transaction) async {
     await _db
         .collection(AppConstants.transactionsCollection)
@@ -14,10 +15,19 @@ class TransactionService {
         .set(transaction.toJson());
   }
 
-  // Fetch transactions from Firestore
   Future<List<TransactionModel>> getTransactions() async {
+    final userId = _auth.currentUser?.uid;
+
+    if (userId == null) {
+      return [];
+    }
+
     QuerySnapshot snapshot =
-        await _db.collection(AppConstants.transactionsCollection).get();
+        await _db
+            .collection(AppConstants.transactionsCollection)
+            .where('userId', isEqualTo: userId)
+            .get();
+
     return snapshot.docs
         .map(
           (doc) =>
@@ -26,12 +36,10 @@ class TransactionService {
         .toList();
   }
 
-  // Delete transaction
   Future<void> deleteTransaction(String id) async {
     await _db.collection(AppConstants.transactionsCollection).doc(id).delete();
   }
 
-  // Save transactions locally (for offline support)
   Future<void> saveTransactionsLocally(
     List<TransactionModel> transactions,
   ) async {

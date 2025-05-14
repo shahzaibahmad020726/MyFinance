@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_finance/core/theme.dart';
 import 'package:my_finance/providers/transaction_provider.dart';
 import 'package:my_finance/widgets/dashboard_widget.dart';
 import 'package:my_finance/services/auth_service.dart';
@@ -35,20 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "MyFinance",
-          style: TextStyle(color: Colors.black, fontSize: 18),
-        ),
+        title: Text("MyFinance", style: g18),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.category, color: Colors.green, size: 20),
+            icon: Icon(Icons.category, color: gClr, size: 20),
             onPressed: () async {
               Navigator.pushNamed(context, "/categories");
             },
           ),
           IconButton(
-            icon: Icon(Icons.logout_outlined, color: Colors.green, size: 20),
+            icon: Icon(Icons.logout_outlined, color: gClr, size: 20),
             onPressed: () async {
               await AuthService().signOut();
               Navigator.pushReplacementNamed(context, "/auth");
@@ -65,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child:
                   transactions.isEmpty
-                      ? Center(child: Text("No transactions yet"))
+                      ? Center(child: Text("No transactions yet.", style: g16,))
                       : ListView.builder(
                         itemCount: transactions.length,
                         itemBuilder:
@@ -78,13 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: gClr,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () {
           Navigator.pushNamed(context, "/add-transaction");
           _refreshTransactions();
         },
-        child: Icon(Icons.add, color: Colors.black),
+        child: Icon(Icons.add, color: wClr),
       ),
     );
   }

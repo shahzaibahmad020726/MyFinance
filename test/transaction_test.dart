@@ -10,6 +10,7 @@ void main() {
       isIncome: true,
       category: 'Income',
       date: DateTime.now(),
+      userId: '',
     );
 
     expect(transaction.title, 'Salary');

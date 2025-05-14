@@ -5,6 +5,7 @@ class TransactionModel {
   final bool isIncome;
   final String category;
   final DateTime date;
+  final String? userId;
 
   TransactionModel({
     required this.id,
@@ -13,6 +14,7 @@ class TransactionModel {
     required this.isIncome,
     required this.category,
     required this.date,
+    required this.userId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,6 +24,7 @@ class TransactionModel {
     'isIncome': isIncome,
     'category': category,
     'date': date.toIso8601String(),
+    'userId': userId,
   };
 
   static TransactionModel fromJson(Map<String, dynamic> json) =>
@@ -32,5 +35,6 @@ class TransactionModel {
         isIncome: json['isIncome'],
         category: json['category'],
         date: DateTime.parse(json['date']),
+        userId: json['userId'],
       );
 }

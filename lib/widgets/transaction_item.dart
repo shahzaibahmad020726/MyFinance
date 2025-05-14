@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:my_finance/core/theme.dart';
 import 'package:my_finance/models/transaction_model.dart';
 import 'package:my_finance/providers/transaction_provider.dart';
 import 'package:provider/provider.dart';
@@ -13,25 +15,26 @@ class TransactionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final formattedDate = DateFormat.yMMMd().format(transaction.date);
     return Card(
+      color: gClr.withAlpha(200),
       child: ListTile(
         title: Row(
-          spacing: 5,
+          spacing: 10,
           children: [
-            Text(
-              transaction.title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-            ),
+            Text(transaction.title, style: w14l),
             Text(
               "${transaction.isIncome ? '+' : '-'}\$${transaction.amount.toStringAsFixed(2)}",
-              style: TextStyle(
-                fontSize: 14,
-                color: transaction.isIncome ? Colors.green : Colors.red,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color:
+                    transaction.isIncome
+                        ? Colors.greenAccent
+                        : Colors.redAccent,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ],
         ),
-        subtitle: Text("${transaction.category} • $formattedDate"),
+        subtitle: Text("${transaction.category} • $formattedDate", style: w14l),
         trailing: GestureDetector(
           onTap: () {
             Provider.of<TransactionProvider>(

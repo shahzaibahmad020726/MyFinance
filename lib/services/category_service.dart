@@ -5,7 +5,6 @@ import 'package:my_finance/models/category_model.dart';
 class CategoryService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Add category
   Future<void> addCategory(CategoryModel category) async {
     await _db
         .collection(AppConstants.categoriesCollection)
@@ -13,7 +12,6 @@ class CategoryService {
         .set(category.toJson());
   }
 
-  // Fetch categories
   Future<List<CategoryModel>> getCategories() async {
     QuerySnapshot snapshot =
         await _db.collection(AppConstants.categoriesCollection).get();
@@ -24,7 +22,6 @@ class CategoryService {
         .toList();
   }
 
-  // Delete category
   Future<void> deleteCategory(String id) async {
     await _db.collection(AppConstants.categoriesCollection).doc(id).delete();
   }

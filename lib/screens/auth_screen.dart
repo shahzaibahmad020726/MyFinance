@@ -126,12 +126,13 @@ class Txtfield extends StatelessWidget {
   final String hinttext;
   final TextEditingController controller;
   final bool obscureText;
+  final TextInputType? keyboardType;
 
   const Txtfield({
     super.key,
     required this.hinttext,
     required this.controller,
-    required this.obscureText,
+    required this.obscureText, this.keyboardType,
   });
 
   @override
@@ -139,6 +140,7 @@ class Txtfield extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextField(
+        keyboardType: keyboardType,
         obscureText: obscureText,
         controller: controller,
         enableSuggestions: false,

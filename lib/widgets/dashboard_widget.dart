@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_finance/core/theme.dart';
 import 'package:my_finance/providers/transaction_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class DashboardWidget extends StatelessWidget {
       height: 120,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.greenAccent,
+        color: gClr,
         borderRadius: BorderRadius.circular(32),
       ),
       child: Column(
@@ -31,38 +32,20 @@ class DashboardWidget extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
-                    income.toStringAsFixed(2),
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  Text(
-                    "Total Income",
-                    style: TextStyle(color: Colors.black, fontSize: 12),
-                  ),
+                  Text(income.toStringAsFixed(2), style: w18),
+                  Text("Total Income", style: w16l),
                 ],
               ),
               Column(
                 children: [
-                  Text(
-                    expenses.toStringAsFixed(2),
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  Text(
-                    "Total Expenses",
-                    style: TextStyle(color: Colors.black, fontSize: 12),
-                  ),
+                  Text(expenses.toStringAsFixed(2), style: w18),
+                  Text("Total Expenses", style: w16l),
                 ],
               ),
               Column(
                 children: [
-                  Text(
-                    balance.toStringAsFixed(2),
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                  Text(
-                    "Net Balance",
-                    style: TextStyle(color: Colors.black, fontSize: 12),
-                  ),
+                  Text(balance.toStringAsFixed(2), style: w18),
+                  Text("Net Balance", style: w16l),
                 ],
               ),
             ],

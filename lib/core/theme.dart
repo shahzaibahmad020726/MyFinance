@@ -17,8 +17,23 @@ final TextStyle g16 = fontStyle(
   fontSize: 16,
   fontWeight: FontWeight.w700,
 );
+final TextStyle w18 = fontStyle(
+  color: wClr,
+  fontSize: 18,
+  fontWeight: FontWeight.w700,
+);
 final TextStyle w16 = fontStyle(
   color: wClr,
   fontSize: 16,
   fontWeight: FontWeight.w700,
+);
+final TextStyle w16l = fontStyle(
+  color: wClr,
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+);
+final TextStyle w14l = fontStyle(
+  color: wClr,
+  fontSize: 14,
+  fontWeight: FontWeight.w300,
 );
